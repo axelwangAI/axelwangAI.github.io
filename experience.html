@@ -8,17 +8,43 @@
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { appleblue: '#0071E3', deepgray: '#1D1D1F' } } } }
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
-        function setLanguage(lang) {
-            if (lang === 'en') {
-                new google.translate.TranslateElement({pageLanguage: 'zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-                document.getElementById('lang-btn-text').innerText = '中';
-            } else {
-                window.location.reload();
+
+        // 翻译逻辑：确保 Google 翻译只初始化一次且可控
+        let translateInitialized = false;
+
+        function googleTranslateElementInit() {
+            if (!translateInitialized) {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'zh-CN',
+                    includedLanguages: 'en,zh-CN',
+                    autoDisplay: false
+                }, 'google_translate_element');
+                translateInitialized = true;
+                document.getElementById('google_translate_element').style.display = 'none';
             }
         }
+
         function toggleLanguage() {
-            const currentLang = document.getElementById('lang-btn-text').innerText === 'EN' ? 'zh-CN' : 'en';
-            if (currentLang === 'en') setLanguage('en'); else setLanguage('cn');
+            const langButton = document.getElementById('lang-btn-text');
+            const isCurrentlyTranslated = langButton.innerText === '中';
+            
+            if (isCurrentlyTranslated) {
+                window.location.reload();
+            } else {
+                if (!translateInitialized) {
+                    googleTranslateElementInit();
+                }
+                
+                setTimeout(() => {
+                    const select = document.querySelector('#google_translate_element .goog-te-combo');
+                    if (select) {
+                        select.value = 'en';
+                        select.dispatchEvent(new Event('change'));
+                    }
+                }, 50);
+
+                langButton.innerText = '中';
+            }
         }
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -29,6 +55,7 @@
         .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: #0071E3; border-radius: 50%; border: 2px solid white; }
         .dark .timeline-item { border-left-color: #374151; }
         .dark .timeline-item::before { border-color: #1D1D1F; }
+        .goog-te-banner-frame { display: none !important; }
     </style>
 </head>
 <body class="bg-white text-deepgray dark:bg-deepgray dark:text-white font-sans antialiased flex flex-col min-h-screen">
@@ -131,9 +158,6 @@
 
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'zh-CN', autoDisplay: false}, 'google_translate_element');
-        }
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
