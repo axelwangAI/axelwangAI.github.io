@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Axel Wang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { appleblue: '#0071E3', deepgray: '#1D1D1F' } } } }
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+        function setLanguage(lang) {
+            if (lang === 'en') {
+                new google.translate.TranslateElement({pageLanguage: 'zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+                document.getElementById('lang-btn-text').innerText = '中';
+            } else {
+                window.location.reload();
+            }
+        }
+        function toggleLanguage() {
+            const currentLang = document.getElementById('lang-btn-text').innerText === 'EN' ? 'zh-CN' : 'en';
+            if (currentLang === 'en') setLanguage('en'); else setLanguage('cn');
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .apple-card { border-radius: 12px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+    </style>
+</head>
+<body class="bg-white text-deepgray dark:bg-deepgray dark:text-white font-sans antialiased flex flex-col min-h-screen">
+
+    <nav class="fixed w-full z-50 bg-white/95 dark:bg-deepgray/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="index.html" class="flex items-center gap-2 font-bold text-xl text-deepgray dark:text-white">
+                    <i data-lucide="bar-chart-2" class="h-6 w-6 text-appleblue"></i>
+                    Axel Wang
+                </a>
+                
+                <div class="hidden md:flex gap-10 text-sm font-medium text-deepgray dark:text-white">
+                    <a href="index.html" class="hover:text-appleblue transition">首页</a>
+                    <a href="experience.html" class="hover:text-appleblue transition">简历</a>
+                    <a href="projects.html" class="text-appleblue border-b-2 border-appleblue pb-1">项目</a>
+                    <a href="lab.html" class="hover:text-appleblue transition">社区</a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleLanguage()" class="border border-gray-300 dark:border-gray-600 px-3 py-1 rounded text-xs font-bold hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                        <span id="lang-btn-text">EN</span>
+                    </button>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-deepgray dark:text-white">
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                    </button>
+                    <div id="google_translate_element" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-32 px-4 max-w-6xl mx-auto w-full">
+        <h1 class="text-4xl font-extrabold sm:text-5xl mb-4">精选项目成果</h1>
+        <p class="text-xl text-gray-500 dark:text-gray-300 mb-12">用量化数据指标，突出从策略到落地的全栈能力。</p>
+
+        <div class="flex flex-wrap gap-3 mb-12">
+            <button class="px-5 py-2 apple-card bg-deepgray text-white text-sm font-medium hover:opacity-90 transition dark:bg-appleblue">全部</button>
+            <button class="px-5 py-2 apple-card bg-gray-100 text-deepgray text-sm font-medium hover:bg-gray-200 transition dark:bg-gray-800 dark:text-white">风控模型</button>
+            <button class="px-5 py-2 apple-card bg-gray-100 text-deepgray text-sm font-medium hover:bg-gray-200 transition dark:bg-gray-800 dark:text-white">数据BI</button>
+            <button class="px-5 py-2 apple-card bg-gray-100 text-deepgray text-sm font-medium hover:bg-gray-200 transition dark:bg-gray-800 dark:text-white">大模型应用</button>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700">
+                <img src="images/risk_model_img.png" alt="风控模型截图" class="w-full h-48 object-cover apple-card rounded-t-xl">
+                <div class="p-6">
+                    <span class="text-xs font-mono text-appleblue mb-1">风控模型 | XGBoost</span>
+                    <h3 class="font-bold text-xl mb-3 text-deepgray dark:text-white">信贷 A 卡模型迭代</h3>
+                    <p class="text-5xl font-extrabold text-appleblue">0.5%↓</p>
+                    <p class="text-sm text-gray-500 mt-2">坏账率降低 0.5%，Gini系数提升 12%，保持通过率稳定。</p>
+                </div>
+            </div>
+
+            <div class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700">
+                <img src="images/bi_dashboard_img.png" alt="BI 仪表板截图" class="w-full h-48 object-cover apple-card rounded-t-xl">
+                <div class="p-6">
+                    <span class="text-xs font-mono text-appleblue mb-1">数据BI | Python ETL</span>
+                    <h3 class="font-bold text-xl mb-3 text-deepgray dark:text-white">核心报表自动化系统</h3>
+                    <p class="text-5xl font-extrabold text-appleblue">60%↑</p>
+                    <p class="text-sm text-gray-500 mt-2">报表生成时间缩短 60%，数据质量校验全流程覆盖。</p>
+                </div>
+            </div>
+
+            <div class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700">
+                <img src="images/llm_query_img.png" alt="LLM 查询工具截图" class="w-full h-48 object-cover apple-card rounded-t-xl">
+                <div class="p-6">
+                    <span class="text-xs font-mono text-appleblue mb-1">大模型应用 | LLM Agent</span>
+                    <h3 class="font-bold text-xl mb-3 text-deepgray dark:text-white">自然语言数据查询工具</h3>
+                    <p class="text-5xl font-extrabold text-appleblue">70%↑</p>
+                    <p class="text-sm text-gray-500 mt-2">非技术用户查询效率提升 70%，消除 SQL 编写依赖。</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-12 text-center text-gray-400 text-sm border-t border-gray-100 dark:border-gray-800 mt-auto">
+        &copy; 2024 Axel Wang. Built with Apple Design Principles.
+    </footer>
+
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'zh-CN', autoDisplay: false}, 'google_translate_element');
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

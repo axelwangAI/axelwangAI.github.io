@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience | Axel Wang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { appleblue: '#0071E3', deepgray: '#1D1D1F' } } } }
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+        function setLanguage(lang) {
+            if (lang === 'en') {
+                new google.translate.TranslateElement({pageLanguage: 'zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+                document.getElementById('lang-btn-text').innerText = '中';
+            } else {
+                window.location.reload();
+            }
+        }
+        function toggleLanguage() {
+            const currentLang = document.getElementById('lang-btn-text').innerText === 'EN' ? 'zh-CN' : 'en';
+            if (currentLang === 'en') setLanguage('en'); else setLanguage('cn');
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .apple-card { border-radius: 12px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+        .timeline-item { border-left: 2px solid #e5e7eb; padding-left: 20px; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: #0071E3; border-radius: 50%; border: 2px solid white; }
+        .dark .timeline-item { border-left-color: #374151; }
+        .dark .timeline-item::before { border-color: #1D1D1F; }
+    </style>
+</head>
+<body class="bg-white text-deepgray dark:bg-deepgray dark:text-white font-sans antialiased flex flex-col min-h-screen">
+
+    <nav class="fixed w-full z-50 bg-white/95 dark:bg-deepgray/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="index.html" class="flex items-center gap-2 font-bold text-xl text-deepgray dark:text-white">
+                    <i data-lucide="bar-chart-2" class="h-6 w-6 text-appleblue"></i>
+                    Axel Wang
+                </a>
+                
+                <div class="hidden md:flex gap-10 text-sm font-medium text-deepgray dark:text-white">
+                    <a href="index.html" class="hover:text-appleblue transition">首页</a>
+                    <a href="experience.html" class="text-appleblue border-b-2 border-appleblue pb-1">简历</a>
+                    <a href="projects.html" class="hover:text-appleblue transition">项目</a>
+                    <a href="lab.html" class="hover:text-appleblue transition">社区</a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleLanguage()" class="border border-gray-300 dark:border-gray-600 px-3 py-1 rounded text-xs font-bold hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                        <span id="lang-btn-text">EN</span>
+                    </button>
+                    <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-deepgray dark:text-white">
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                        <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                    </button>
+                    <div id="google_translate_element" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-32 px-4 max-w-4xl mx-auto w-full">
+        <div class="mb-16">
+            <img src="images/avatar.png" alt="Axel Wang Avatar" class="w-28 h-28 rounded-full mb-6 border-4 border-gray-100 dark:border-gray-700 shadow-lg">
+            <h1 class="text-4xl font-extrabold sm:text-5xl mb-4">Axel Wang</h1>
+            <p class="text-xl text-gray-500 dark:text-gray-300">资深数据分析师。专注用工程化能力，解决金融风控数据链路难题。</p>
+            <div class="mt-8">
+                <a href="#" class="inline-flex items-center bg-appleblue text-white px-5 py-3 apple-card font-medium hover:opacity-90 transition shadow-md shadow-appleblue/30">
+                    <i data-lucide="download" class="w-4 h-4 mr-2"></i> 下载 PDF 简历
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 border-t border-b border-gray-100 dark:border-gray-800 py-8">
+            <div class="text-center">
+                <span class="text-4xl font-extrabold text-appleblue block">11+</span>
+                <span class="text-sm text-gray-500">年数据经验</span>
+            </div>
+            <div class="text-center">
+                <span class="text-4xl font-extrabold text-appleblue block">0.5%↓</span>
+                <span class="text-sm text-gray-500">模型坏账率降幅</span>
+            </div>
+            <div class="text-center">
+                <span class="text-4xl font-extrabold text-appleblue block">60%↑</span>
+                <span class="text-sm text-gray-500">报表自动化提效</span>
+            </div>
+            <div class="text-center">
+                <span class="text-4xl font-extrabold text-appleblue block">Python</span>
+                <span class="text-sm text-gray-500">主用技术栈</span>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-bold mb-8 mt-12">职业经历</h2>
+        <div class="space-y-12">
+            
+            <div class="timeline-item">
+                <div class="flex justify-between mb-2">
+                    <h3 class="text-xl font-bold">资深数据分析师 / 数据工程主管</h3>
+                    <span class="text-sm font-mono text-gray-500">2021 - 至今</span>
+                </div>
+                <p class="text-lg font-medium mb-3 text-deepgray dark:text-gray-200">推动数据工程化，解决数据交付“最后一公里”问题。</p>
+                <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1 text-sm bg-gray-50 dark:bg-gray-800 p-4 apple-card">
+                    <li>**自动化报表:** 构建 Python ETL 流程，减少 60% 手工报表时间。</li>
+                    <li>**LLM应用:** 主导大模型数据查询项目，分析效率提升 70%。</li>
+                    <li>**数据治理:** 规范化埋点与字段，提升数据质量。</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="flex justify-between mb-2">
+                    <h3 class="text-xl font-bold">信贷风控模型专家</h3>
+                    <span class="text-sm font-mono text-gray-500">2014 - 2021</span>
+                </div>
+                <p class="text-lg font-medium mb-3 text-deepgray dark:text-gray-200">深耕信贷周期 7 年，负责核心风控指标与策略迭代。</p>
+                 <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-1 text-sm bg-gray-50 dark:bg-gray-800 p-4 apple-card">
+                    <li>**模型开发:** 开发 XGBoost A/B 卡评分模型，坏账率降低 0.5% (Gini 提升 12%)。</li>
+                    <li>**策略设计:** 搭建 Vintage/Migration 报表体系，精准监控资产质量周期。</li>
+                </ul>
+            </div>
+            
+        </div>
+        
+    </main>
+
+    <footer class="py-12 text-center text-gray-400 text-sm border-t border-gray-100 dark:border-gray-800 mt-auto">
+        &copy; 2024 Axel Wang. Built with Apple Design Principles.
+    </footer>
+
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'zh-CN', autoDisplay: false}, 'google_translate_element');
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>
