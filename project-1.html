@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目详情 | Axel Wang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { appleblue: '#0071E3', deepgray: '#1D1D1F' } } } }
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+
+        let translateInitialized = false;
+        function googleTranslateElementInit() {
+            if (!translateInitialized) {
+                new google.translate.TranslateElement({ pageLanguage: 'zh-CN', includedLanguages: 'en,zh-CN', autoDisplay: false }, 'google_translate_element');
+                translateInitialized = true;
+                document.getElementById('google_translate_element').style.display = 'none';
+            }
+        }
+        function toggleLanguage() {
+            const langButton = document.getElementById('lang-btn-text');
+            const isCurrentlyTranslated = langButton.innerText === '中';
+            if (isCurrentlyTranslated) {
+                window.location.reload();
+            } else {
+                if (!translateInitialized) { googleTranslateElementInit(); }
+                setTimeout(() => {
+                    const select = document.querySelector('#google_translate_element .goog-te-combo');
+                    if (select) { select.value = 'en'; select.dispatchEvent(new Event('change')); }
+                }, 50);
+                langButton.innerText = '中';
+            }
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .apple-card { border-radius: 12px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+        .goog-te-banner-frame { display: none !important; }
+    </style>
+</head>
+<body class="bg-white text-deepgray dark:bg-deepgray dark:text-white font-sans antialiased flex flex-col min-h-screen">
+
+    <nav class="fixed w-full z-50 bg-white/95 dark:bg-deepgray/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors">
+        </nav>
+
+    <main class="flex-grow pt-32 px-4 max-w-4xl mx-auto w-full">
+        <div class="mb-10 apple-card overflow-hidden">
+            <img src="images/risk_model_img.png" alt="项目主视觉图" class="w-full h-auto object-cover border border-gray-100 dark:border-gray-700 rounded-lg shadow-xl">
+        </div>
+
+        <a href="projects.html" class="flex items-center text-appleblue mb-2 hover:underline">
+             <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 返回项目列表
+        </a>
+        <h1 class="text-5xl font-extrabold mb-4">信贷 A 卡模型迭代：0.5% 坏账率降幅</h1>
+        <p class="text-xl text-gray-500 dark:text-gray-300 mb-8">
+            采用 XGBoost 模型，通过工程化特征处理，实现资产质量和通过率的精细化平衡。
+        </p>
+
+        <div class="flex flex-wrap gap-4 mb-12">
+            <span class="px-3 py-1 bg-appleblue/10 text-appleblue text-sm font-medium rounded-full">技术栈：Python / XGBoost / Feature Store</span>
+            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-deepgray dark:text-white text-sm font-medium rounded-full">成果：Gini提升12%</span>
+            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-deepgray dark:text-white text-sm font-medium rounded-full">周期：6个月</span>
+        </div>
+
+        <div class="space-y-8 text-lg text-deepgray dark:text-gray-200">
+            
+            <section>
+                <h2 class="text-3xl font-bold mb-4">1. 项目背景与挑战</h2>
+                <p>在信贷周期早期，旧模型无法准确捕捉借款人的长期信用风险。坏账率的微小波动对业务盈利能力产生巨大影响，我们面临在不牺牲通过率的前提下，降低风险的挑战。</p>
+            </section>
+            
+            <section>
+                <h2 class="text-3xl font-bold mb-4">2. 核心解决方案：XGBoost + 工程化特征</h2>
+                <p>我们没有盲目追求更复杂的模型，而是将 70% 的精力投入到特征工程。核心贡献包括：</p>
+                <ul class="list-disc list-inside ml-5 space-y-2 text-gray-600 dark:text-gray-400">
+                    <li>**时间序列特征:** 提取近 3/6/12 个月负债波动、逾期趋势等高区分度特征。</li>
+                    <li>**特征稳定性监控:** 部署自动化监控，确保模型上线后输入特征的 PSI 保持稳定。</li>
+                    <li>**模型部署:** 使用 Python Flask 封装模型，实现毫秒级 API 响应。</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-3xl font-bold mb-4">3. 量化成果</h2>
+                <p>通过新模型，我们在保持原有通过率±5%的范围内，成功将坏账率（M3+）降低了 **0.5个百分点**，模型区分度 Gini 系数从 0.58 提升到 0.70。</p>
+            </section>
+
+        </div>
+
+        <div class="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
+             <a href="projects.html" class="flex items-center text-appleblue hover:underline">
+                 <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i> 返回项目列表
+            </a>
+        </div>
+    </main>
+
+    <footer class="py-12 text-center text-gray-400 text-sm border-t border-gray-100 dark:border-gray-800 mt-auto">
+        &copy; 2024 Axel Wang. Built with Apple Design Principles.
+    </footer>
+
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+        lucide.createIcons();
+    </script>
+</body>
+</html>

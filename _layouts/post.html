@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    </head>
+<body class="bg-white text-deepgray dark:bg-deepgray dark:text-white font-sans antialiased flex flex-col min-h-screen">
+
+    <main class="flex-grow pt-32 px-4 max-w-3xl mx-auto w-full">
+        <div class="mb-12">
+            <h1 class="text-4xl font-extrabold sm:text-5xl mb-4">{{ page.title }}</h1>
+            <p class="text-lg text-gray-500 dark:text-gray-300 mb-6">发布于：{{ page.date | date: "%Y年%m月%d日" }}</p>
+            <div class="post-content text-deepgray dark:text-gray-200">
+                {{ content }}
+            </div>
+        </div>
+
+        <div id="comments" class="pt-12 mt-12 border-t border-gray-100 dark:border-gray-800">
+            <h2 class="text-2xl font-bold mb-6">用户评论与讨论</h2>
+            
+            <script src="https://giscus.app/client.js"
+                data-repo="axelwangAI/axelwangAI.github.io" data-repo-id="R_kgDOQbR8zw" data-category="Discussions"             
+                data-category-id="DIC_kwDOQbR8z84Cy2yP"       data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="preferred_color_scheme" 
+                data-lang="zh-CN"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+            </script>
+        </div>
+    </main>
+
+    </body>
+</html>

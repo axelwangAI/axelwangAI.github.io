@@ -1,0 +1,23 @@
+# admin/config.yml
+backend:
+  name: github
+  repo: axelwangAI/axelwangAI.github.io # 你的GitHub用户名/你的仓库名
+  branch: main
+  base_url: https://github.com
+  auth_scope: repo 
+  
+publish_mode: simple # 简单模式，即发布后直接提交到 main 分支
+
+# 帖子的管理配置
+collections:
+  - name: "posts"
+    label: "社区帖子"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "布局", name: "layout", widget: "hidden", default: "post"} # 使用 _layouts/post.html 模板
+      - {label: "标题", name: "title", widget: "string"}
+      - {label: "发布日期", name: "date", widget: "datetime"}
+      - {label: "标签", name: "tag", widget: "string", required: false}
+      - {label: "正文 (Markdown)", name: "body", widget: "markdown"}

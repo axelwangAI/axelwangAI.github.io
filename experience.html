@@ -3,48 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experience | Axel Wang</title>
+    <title>简历 | Axel Wang</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { appleblue: '#0071E3', deepgray: '#1D1D1F' } } } }
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
 
-        // 翻译逻辑：确保 Google 翻译只初始化一次且可控
         let translateInitialized = false;
-
         function googleTranslateElementInit() {
             if (!translateInitialized) {
-                new google.translate.TranslateElement({
-                    pageLanguage: 'zh-CN',
-                    includedLanguages: 'en,zh-CN',
-                    autoDisplay: false
-                }, 'google_translate_element');
+                new google.translate.TranslateElement({ pageLanguage: 'zh-CN', includedLanguages: 'en,zh-CN', autoDisplay: false }, 'google_translate_element');
                 translateInitialized = true;
                 document.getElementById('google_translate_element').style.display = 'none';
             }
         }
-
         function toggleLanguage() {
             const langButton = document.getElementById('lang-btn-text');
             const isCurrentlyTranslated = langButton.innerText === '中';
-            
             if (isCurrentlyTranslated) {
                 window.location.reload();
             } else {
-                if (!translateInitialized) {
-                    googleTranslateElementInit();
-                }
-                
+                if (!translateInitialized) { googleTranslateElementInit(); }
                 setTimeout(() => {
                     const select = document.querySelector('#google_translate_element .goog-te-combo');
-                    if (select) {
-                        select.value = 'en';
-                        select.dispatchEvent(new Event('change'));
-                    }
+                    if (select) { select.value = 'en'; select.dispatchEvent(new Event('change')); }
                 }, 50);
-
                 langButton.innerText = '中';
             }
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         }
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -72,7 +61,7 @@
                     <a href="index.html" class="hover:text-appleblue transition">首页</a>
                     <a href="experience.html" class="text-appleblue border-b-2 border-appleblue pb-1">简历</a>
                     <a href="projects.html" class="hover:text-appleblue transition">项目</a>
-                    <a href="lab.html" class="hover:text-appleblue transition">社区</a>
+                    <a href="lab.html" class="hover:text-appleblue transition">知识社区</a>
                 </div>
 
                 <div class="flex items-center gap-3">
@@ -158,10 +147,6 @@
 
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-        }
         lucide.createIcons();
     </script>
 </body>

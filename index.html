@@ -7,58 +7,40 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { appleblue: '#0071E3', deepgray: '#1D1D1F' } } } }
-        // 检查并设置深色模式
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
 
-        // 翻译逻辑：确保 Google 翻译只初始化一次且可控
         let translateInitialized = false;
-
         function googleTranslateElementInit() {
             if (!translateInitialized) {
-                new google.translate.TranslateElement({
-                    pageLanguage: 'zh-CN',
-                    includedLanguages: 'en,zh-CN',
-                    autoDisplay: false
-                }, 'google_translate_element');
+                new google.translate.TranslateElement({ pageLanguage: 'zh-CN', includedLanguages: 'en,zh-CN', autoDisplay: false }, 'google_translate_element');
                 translateInitialized = true;
-                // 首次初始化后，隐藏 Google 的语言选择框，只保留我们的按钮
                 document.getElementById('google_translate_element').style.display = 'none';
             }
         }
-
         function toggleLanguage() {
             const langButton = document.getElementById('lang-btn-text');
             const isCurrentlyTranslated = langButton.innerText === '中';
-            
             if (isCurrentlyTranslated) {
-                // 切换回中文：刷新页面
                 window.location.reload();
             } else {
-                // 切换到英文
-                if (!translateInitialized) {
-                    googleTranslateElementInit();
-                }
-                
-                // 关键步骤：在 50ms 后模拟点击 Google 翻译的 'English' 选项
+                if (!translateInitialized) { googleTranslateElementInit(); }
                 setTimeout(() => {
                     const select = document.querySelector('#google_translate_element .goog-te-combo');
-                    if (select) {
-                        select.value = 'en'; // 设置下拉框为英文
-                        select.dispatchEvent(new Event('change')); // 触发切换事件
-                    }
+                    if (select) { select.value = 'en'; select.dispatchEvent(new Event('change')); }
                 }, 50);
-
-                langButton.innerText = '中'; // 标记已切换
+                langButton.innerText = '中';
             }
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         }
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         .apple-card { border-radius: 12px; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
-        /* 隐藏 Google 翻译横幅 */
         .goog-te-banner-frame { display: none !important; }
-        .goog-tooltip, .goog-tooltip:hover { display: none !important; }
     </style>
 </head>
 <body class="bg-white text-deepgray dark:bg-deepgray dark:text-white font-sans antialiased flex flex-col min-h-screen">
@@ -75,7 +57,7 @@
                     <a href="index.html" class="text-appleblue border-b-2 border-appleblue pb-1">首页</a>
                     <a href="experience.html" class="hover:text-appleblue transition">简历</a>
                     <a href="projects.html" class="hover:text-appleblue transition">项目</a>
-                    <a href="lab.html" class="hover:text-appleblue transition">社区</a>
+                    <a href="lab.html" class="hover:text-appleblue transition">知识社区</a>
                 </div>
 
                 <div class="flex items-center gap-3">
@@ -136,11 +118,6 @@
 
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-        }
-        
         // 首页的计算器逻辑
         document.getElementById('overdue').oninput = function() { document.getElementById('val').innerText = this.value }
         function calc() {

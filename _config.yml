@@ -1,0 +1,8 @@
+# _config.yml
+# 激活 Jekyll 引擎
+plugins:
+  - jekyll-feed
+  
+# 网站信息（Jekyll 全局变量）
+title: Axel Wang Data Community
+description: 知识社区

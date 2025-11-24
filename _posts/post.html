@@ -3,44 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>知识社区 | Axel Wang</title>
+    <title>{{ page.title }} | Axel Wang</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { appleblue: '#0071E3', deepgray: '#1D1D1F' } } } }
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
-
-        let translateInitialized = false;
-        function googleTranslateElementInit() {
-            if (!translateInitialized) {
-                new google.translate.TranslateElement({ pageLanguage: 'zh-CN', includedLanguages: 'en,zh-CN', autoDisplay: false }, 'google_translate_element');
-                translateInitialized = true;
-                document.getElementById('google_translate_element').style.display = 'none';
-            }
-        }
-        function toggleLanguage() {
-            const langButton = document.getElementById('lang-btn-text');
-            const isCurrentlyTranslated = langButton.innerText === '中';
-            if (isCurrentlyTranslated) {
-                window.location.reload();
-            } else {
-                if (!translateInitialized) { googleTranslateElementInit(); }
-                setTimeout(() => {
-                    const select = document.querySelector('#google_translate_element .goog-te-combo');
-                    if (select) { select.value = 'en'; select.dispatchEvent(new Event('change')); }
-                }, 50);
-                langButton.innerText = '中';
-            }
-        }
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-        }
-    </script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* 保持原有的苹果风样式 */
         .apple-card { border-radius: 12px; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
         .goog-te-banner-frame { display: none !important; }
+        /* 帖子内容的样式，使 Markdown 渲染更美观 */
+        .post-content h2 { font-size: 1.875rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .post-content p { margin-bottom: 1rem; line-height: 1.75; }
     </style>
 </head>
 <body class="bg-white text-deepgray dark:bg-deepgray dark:text-white font-sans antialiased flex flex-col min-h-screen">
@@ -52,14 +24,12 @@
                     <i data-lucide="bar-chart-2" class="h-6 w-6 text-appleblue"></i>
                     Axel Wang
                 </a>
-                
                 <div class="hidden md:flex gap-10 text-sm font-medium text-deepgray dark:text-white">
                     <a href="index.html" class="hover:text-appleblue transition">首页</a>
                     <a href="experience.html" class="hover:text-appleblue transition">简历</a>
                     <a href="projects.html" class="hover:text-appleblue transition">项目</a>
-                    <a href="lab.html" class="text-appleblue border-b-2 border-appleblue pb-1">知识社区</a>
+                    <a href="lab.html" class="text-appleblue border-b-2 border-appleblue pb-1">社区</a>
                 </div>
-
                 <div class="flex items-center gap-3">
                     <button onclick="toggleLanguage()" class="border border-gray-300 dark:border-gray-600 px-3 py-1 rounded text-xs font-bold hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                         <span id="lang-btn-text">EN</span>
@@ -73,28 +43,46 @@
             </div>
         </div>
     </nav>
-
     <main class="flex-grow pt-32 px-4 max-w-3xl mx-auto w-full">
-        <h1 class="text-4xl font-extrabold sm:text-5xl mb-4 text-center">数据知识社区</h1>
-        <p class="text-xl text-gray-500 dark:text-gray-300 mb-12 text-center">原创内容和行业洞察。本页将升级为帖子列表。</p>
-
-        <div class="space-y-6">
-            <div class="apple-card bg-white dark:bg-gray-800 p-6 shadow-md transition border border-gray-100 dark:border-gray-700 text-center py-12">
-                <i data-lucide="library" class="w-10 h-10 text-appleblue mx-auto mb-4"></i>
-                <h3 class="font-bold text-xl mb-2">帖子列表占位符</h3>
-                <p class="text-base text-gray-500 dark:text-gray-300">本页将通过 CMS 自动生成帖子列表。请先完成 **阶段二** 部署。</p>
+        <div class="mb-12">
+            <h1 class="text-4xl font-extrabold sm:text-5xl mb-4">{{ page.title }}</h1>
+            <p class="text-lg text-gray-500 dark:text-gray-300 mb-6">发布于：{{ page.date | date: "%Y年%m月%d日" }}</p>
+            <div class="post-content text-deepgray dark:text-gray-200">
+                {{ content }}
             </div>
         </div>
-        
+
+        <div class="pt-12 mt-12 border-t border-gray-100 dark:border-gray-800">
+            <h2 class="text-2xl font-bold mb-6">用户评论与讨论</h2>
+            
+            <div id="disqus_thread"></div>
+            <script>
+                /**
+                 * 配置 Disqus 评论系统的全局变量
+                 * 你需要注册 Disqus 账号，并将 'YOUR_DISQUS_SHORTNAME' 替换为你的短名称
+                 */
+                var disqus_config = function () {
+                    this.page.url = '{{ site.url }}{{ page.url }}';  // 帖子网址
+                    this.page.identifier = '{{ page.url }}'; // 帖子唯一标识
+                };
+                (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://YOUR_DISQUS_SHORTNAME.disqus.com/embed.js'; // <-- 替换为你自己的短名称
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>请启用 JavaScript 来查看 <a href="https://disqus.com/?ref_noscript">Disqus 提供的评论</a>。</noscript>
+        </div>
+
     </main>
 
     <footer class="py-12 text-center text-gray-400 text-sm border-t border-gray-100 dark:border-gray-800 mt-auto">
         &copy; 2024 Axel Wang. Built with Apple Design Principles.
     </footer>
-
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
-        lucide.createIcons();
+        // ... 所有脚本代码（包括 toggleTheme, toggleLanguage, lucide.createIcons等）...
     </script>
-</body>
+    </body>
 </html>

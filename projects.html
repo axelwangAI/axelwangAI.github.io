@@ -3,48 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects | Axel Wang</title>
+    <title>项目 | Axel Wang</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { appleblue: '#0071E3', deepgray: '#1D1D1F' } } } }
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
 
-        // 翻译逻辑：确保 Google 翻译只初始化一次且可控
         let translateInitialized = false;
-
         function googleTranslateElementInit() {
             if (!translateInitialized) {
-                new google.translate.TranslateElement({
-                    pageLanguage: 'zh-CN',
-                    includedLanguages: 'en,zh-CN',
-                    autoDisplay: false
-                }, 'google_translate_element');
+                new google.translate.TranslateElement({ pageLanguage: 'zh-CN', includedLanguages: 'en,zh-CN', autoDisplay: false }, 'google_translate_element');
                 translateInitialized = true;
                 document.getElementById('google_translate_element').style.display = 'none';
             }
         }
-
         function toggleLanguage() {
             const langButton = document.getElementById('lang-btn-text');
             const isCurrentlyTranslated = langButton.innerText === '中';
-            
             if (isCurrentlyTranslated) {
                 window.location.reload();
             } else {
-                if (!translateInitialized) {
-                    googleTranslateElementInit();
-                }
-                
+                if (!translateInitialized) { googleTranslateElementInit(); }
                 setTimeout(() => {
                     const select = document.querySelector('#google_translate_element .goog-te-combo');
-                    if (select) {
-                        select.value = 'en';
-                        select.dispatchEvent(new Event('change'));
-                    }
+                    if (select) { select.value = 'en'; select.dispatchEvent(new Event('change')); }
                 }, 50);
-
                 langButton.innerText = '中';
             }
+        }
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         }
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -68,7 +57,7 @@
                     <a href="index.html" class="hover:text-appleblue transition">首页</a>
                     <a href="experience.html" class="hover:text-appleblue transition">简历</a>
                     <a href="projects.html" class="text-appleblue border-b-2 border-appleblue pb-1">项目</a>
-                    <a href="lab.html" class="hover:text-appleblue transition">社区</a>
+                    <a href="lab.html" class="hover:text-appleblue transition">知识社区</a>
                 </div>
 
                 <div class="flex items-center gap-3">
@@ -97,7 +86,7 @@
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700">
+            <a href="project-1.html" class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700 block">
                 <img src="images/risk_model_img.png" alt="风控模型截图" class="w-full h-48 object-cover apple-card rounded-t-xl">
                 <div class="p-6">
                     <span class="text-xs font-mono text-appleblue mb-1">风控模型 | XGBoost</span>
@@ -105,9 +94,9 @@
                     <p class="text-5xl font-extrabold text-appleblue">0.5%↓</p>
                     <p class="text-sm text-gray-500 mt-2">坏账率降低 0.5%，Gini系数提升 12%，保持通过率稳定。</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700">
+            <a href="project-2.html" class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700 block">
                 <img src="images/bi_dashboard_img.png" alt="BI 仪表板截图" class="w-full h-48 object-cover apple-card rounded-t-xl">
                 <div class="p-6">
                     <span class="text-xs font-mono text-appleblue mb-1">数据BI | Python ETL</span>
@@ -115,9 +104,9 @@
                     <p class="text-5xl font-extrabold text-appleblue">60%↑</p>
                     <p class="text-sm text-gray-500 mt-2">报表生成时间缩短 60%，数据质量校验全流程覆盖。</p>
                 </div>
-            </div>
+            </a>
 
-            <div class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700">
+            <a href="project-3.html" class="apple-card bg-white dark:bg-gray-800 shadow-xl hover:shadow-2xl hover:translate-y-[-4px] transition-all cursor-pointer border border-gray-100 dark:border-gray-700 block">
                 <img src="images/llm_query_img.png" alt="LLM 查询工具截图" class="w-full h-48 object-cover apple-card rounded-t-xl">
                 <div class="p-6">
                     <span class="text-xs font-mono text-appleblue mb-1">大模型应用 | LLM Agent</span>
@@ -125,7 +114,7 @@
                     <p class="text-5xl font-extrabold text-appleblue">70%↑</p>
                     <p class="text-sm text-gray-500 mt-2">非技术用户查询效率提升 70%，消除 SQL 编写依赖。</p>
                 </div>
-            </div>
+            </a>
         </div>
     </main>
 
@@ -135,10 +124,6 @@
 
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-        }
         lucide.createIcons();
     </script>
 </body>
